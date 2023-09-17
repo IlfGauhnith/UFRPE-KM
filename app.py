@@ -1,5 +1,7 @@
+import os
+from werkzeug.utils import secure_filename
 from flask import Flask, render_template, request, redirect, url_for
-from persistence import init_db, auth, getAllBeachs
+from persistence import init_db, auth, getAllBeachs, signup
 from model import User
 
 app = Flask(__name__)
@@ -12,9 +14,22 @@ init_db(app)
 def welcome():
     return render_template('index.html')
 
+@app.route('/signup', methods=['POST'])
+def signup_handler():
+    if request.method == 'POST':
+        username = request.form.get('signup-username')
+        password = request.form.get('signup-password')
+        nome = request.form.get('signup-nome')
+        profilePicture = request.files['profile-picture']
 
-@app.route('/submit_login', methods=['POST'])
-def submit_login():
+        filename = secure_filename(profilePicture.filename)
+        profilePicture.save(os.path.join('static/images', filename))
+
+        signup(app, User(username=username, password=password, nome=nome, profile_pic_path=os.path.join('static/images', filename)))
+        return render_template('index.html')
+    
+@app.route('/login', methods=['POST'])
+def login_handler():
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')

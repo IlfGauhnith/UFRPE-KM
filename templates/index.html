@@ -34,8 +34,7 @@
       /* Rounded corners */
       color: black;
       /* Text color */
-      max-width: 70%;
-      /* Set the maximum width */
+      min-width: 70%;
       position: absolute;
       /* Add absolute positioning to the div */
       bottom: 0;
@@ -72,7 +71,11 @@
       /* Half of p's width */
     }
 
-    .login-button {
+    .image-upload>input {
+      display: none;
+    }
+
+    .login-button, .signup-button {
       background-color: steelblue;
       color: white;
       padding: 10px 20px;
@@ -81,15 +84,14 @@
       cursor: pointer;
       margin: 2%;
       width: 20%;
-      
     }
 
-    .login-form {
+    .login-form, .signup-form {
       display: none;
       /* Hide the login form by default */
     }
 
-    .login-input {
+    .login-input, .password-input, .nome-input {
       margin-left: 1%;
       margin-right: 1%;
       padding: 10px 20px;
@@ -108,11 +110,24 @@
     <p>De cenários deslubrantes a iniciativas ecológicas, essas praias oferecem experiências inesquecíveis</p>
     <div class="button-container">
       <button id="descobrirBtn" class="descobrir-button">Descobrir</button>
-      <form id="loginForm" class="login-form" action="/submit_login" method="post">
-        <!-- Add your login form fields here -->
+      <form id="loginForm" class="login-form" action="" method="post">
         <input class="login-input" name="username" type="text" placeholder="Username">
         <input class="login-input" name="password" type="password" placeholder="Password">
-        <button type="submit" class="login-button">Login</button>
+        <button type="submit" formaction="/login" id="login-button" class="login-button">Login</button>
+        <button type="button" id="novo-cadastro-button" class="signup-button">Cadastrar</button>
+      </form>
+      <form id="signupForm" class="signup-form" action="" method="post" enctype="multipart/form-data">
+        <input class="nome-input" name="signup-nome" type="text" placeholder="Nome">
+        <input class="login-input" name="signup-username" type="text" placeholder="Username">
+        <input class="password-input" name="signup-password" type="password" placeholder="Password">
+        <div class="image-upload">
+          <label for="profile-picture">
+            Foto de Perfil
+            <img src="https://icons.iconarchive.com/icons/dtafalonso/android-lollipop/128/Downloads-icon.png" width="43" height="43"/>
+          </label>
+          <input id="profile-picture" name="profile-picture" type="file"/>
+        </div>
+        <button type="submit" formaction="/signup" id="signup-button" class="signup-button">Cadastrar</button>
       </form>
     </div>
   </div>
@@ -120,13 +135,22 @@
   <script>
     const descobrirButton = document.getElementById("descobrirBtn");
     const loginForm = document.getElementById("loginForm");
-
+    
     descobrirButton.addEventListener("click", () => {
       // Hide the button
       descobrirButton.style.display = "none";
       // Show the login form
-      loginForm.style.display = "block";
+      loginForm.style.display = "flex";
     });
+
+    const novoCadastroButton = document.getElementById("novo-cadastro-button");
+    const signupForm = document.getElementById("signupForm");
+
+    novoCadastroButton.addEventListener("click", () => {
+      loginForm.style.display = "none";
+      signupForm.style.display = "flex";
+    });
+
   </script>
 </body>
 

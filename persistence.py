@@ -51,7 +51,14 @@ def getAllBeachs():
             beachs.append(Beach(row[1], row[2], row[3]))
 
         return beachs
-    
+
+def signup(app, user: User):
+    with current_app.app_context():
+        db = sqlite3.connect(current_app.config['DATABASE'])
+        db.execute('INSERT INTO users (username, password, nome, profile_pic_path) VALUES (?, ?, ?, ?)',
+               (user.username, user.password, user.nome, user.profile_pic_path))
+        db.commit()
+        
 def auth(app, user: User):
     with current_app.app_context():
         db = sqlite3.connect(current_app.config['DATABASE'])
